@@ -1,0 +1,19 @@
+{
+    "name": "divineomega/thisishowirole",
+    "description": "'This Is How I Role' is a PHP role management system that can be applied to any class.",
+    "license": "LGPL3",
+    "keywords": [
+        "php",
+        "library",
+        "roles",
+        "permissions"
+      ],
+    "require": {
+        "php": ">=5.6.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "DivineOmega\\ThisIsHowIRole\\": "src"
+        }
+    }
+}
