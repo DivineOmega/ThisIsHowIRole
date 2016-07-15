@@ -23,7 +23,7 @@ abstract class Database
     return $connection;
   }
 
-  private static function getRoles($className, $foreignId)
+  private static function getRoles($className, $foreignId, $roles)
   {
     $connection = self::getConnection();
 
@@ -32,6 +32,15 @@ abstract class Database
     $roleObj = \PDO::prepare($sql)->execute($className, $foreignId)->fetchObject();
 
     return $roleObj->roles;
+  }
+
+  private static function setRoles($className, $foreignId)
+  {
+    $connection = self::getConnection();
+
+    $sql = 'update '.$this->table.' set roles = ? where class_name = ? and foreign_id = ?';
+
+    \PDO::prepare($sql)->execute($roles, $className, $foreignId);
   }
 
   public static function add($className, $foreignId, $role)
@@ -48,9 +57,7 @@ abstract class Database
     $rolesArray[] = $role;
     $roles = implode(' ', $rolesArray);
 
-    $sql = 'update '.$this->table.' set roles = ? where class_name = ? and foreign_id = ?';
-
-    \PDO::prepare($sql)->execute($roles, $className, $foreignId);
+    self::setRoles($className, $foreignId, $roles);
 
   }
 
@@ -69,9 +76,7 @@ abstract class Database
     unset($rolesArray[$key]);
     $roles = implode(' ', $rolesArray);
 
-    $sql = 'update '.$this->table.' set roles = ? where class_name = ? and foreign_id = ?';
-
-    \PDO::prepare($sql)->execute($roles, $className, $foreignId);
+    self::setRoles($className, $foreignId, $roles);
 
   }
 
