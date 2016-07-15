@@ -23,7 +23,7 @@ abstract class Database
     return $connection;
   }
 
-  public static function add($className, $foreignId, $role)
+  private static function getRoles($className, $foreignId)
   {
     $connection = self::getConnection();
 
@@ -31,11 +31,18 @@ abstract class Database
 
     $roleObj = \PDO::prepare($sql)->execute($className, $foreignId)->fetchObject();
 
-    $roles = $roleObj->roles;
+    return $roleObj->roles;
+  }
+
+  public static function add($className, $foreignId, $role)
+  {
+    $roles = self::getRoles($className, $foreignId);
 
     if (stripos($roles, $role)===false) {
       return;
     }
+
+    $connection = self::getConnection();
 
     $rolesArray = explode(' ', $roles);
     $rolesArray[] = $role;
@@ -49,17 +56,13 @@ abstract class Database
 
   public static function remove($className, $foreignId, $role)
   {
-    $connection = self::getConnection();
-
-    $sql = 'select * from '.$this->table.' where class_name = ? and foreign_id = ?';
-
-    $roleObj = \PDO::prepare($sql)->execute($className, $foreignId)->fetchObject();
-
-    $roles = $roleObj->roles;
+    $roles = self::getRoles($className, $foreignId);
 
     if (stripos($roles, $role)===false) {
       return;
     }
+
+    $connection = self::getConnection();
 
     $rolesArray = explode(' ', $roles);
     $key = array_search($role, $rolesArray);
@@ -74,13 +77,7 @@ abstract class Database
 
   public static function has($className, $foreignId, $role)
   {
-    $connection = self::getConnection();
-
-    $sql = 'select * from '.$this->table.' where class_name = ? and foreign_id = ?';
-
-    $roleObj = \PDO::prepare($sql)->execute($className, $foreignId)->fetchObject();
-
-    $roles = $roleObj->roles;
+    $roles = self::getRoles($className, $foreignId);
 
     if (stripos($roles, $role)===false) {
       return false;
