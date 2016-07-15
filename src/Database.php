@@ -17,7 +17,7 @@ abstract class Database
     $dsn = 'mysql:dbname='.$name.';host='.$host;
 
     if ($connection==null) {
-      $this->connection = new PDO($dsn, $user, $password);
+      self::$connection = new PDO($dsn, $user, $password);
     }
 
     return $connection;
@@ -27,7 +27,7 @@ abstract class Database
   {
     $connection = self::getConnection();
 
-    $sql = 'select * from '.$this->table.' where class_name = ? and foreign_id = ?';
+    $sql = 'select * from '.self::$table.' where class_name = ? and foreign_id = ?';
 
     $roleObj = \PDO::prepare($sql)->execute($className, $foreignId)->fetchObject();
 
@@ -38,7 +38,7 @@ abstract class Database
   {
     $connection = self::getConnection();
 
-    $sql = 'update '.$this->table.' set roles = ? where class_name = ? and foreign_id = ?';
+    $sql = 'update '.self::$table.' set roles = ? where class_name = ? and foreign_id = ?';
 
     \PDO::prepare($sql)->execute($roles, $className, $foreignId);
   }
@@ -47,13 +47,11 @@ abstract class Database
   {
     $roles = self::getRoles($className, $foreignId);
 
-    if (stripos($roles, $role)===false) {
+    $rolesArray = explode(' ', $roles);
+    $key = array_search($role, $rolesArray);
+    if ($key!==false) {
       return;
     }
-
-    $connection = self::getConnection();
-
-    $rolesArray = explode(' ', $roles);
     $rolesArray[] = $role;
     $roles = implode(' ', $rolesArray);
 
@@ -65,14 +63,11 @@ abstract class Database
   {
     $roles = self::getRoles($className, $foreignId);
 
-    if (stripos($roles, $role)===false) {
-      return;
-    }
-
-    $connection = self::getConnection();
-
     $rolesArray = explode(' ', $roles);
     $key = array_search($role, $rolesArray);
+    if ($key===false) {
+      return;
+    }
     unset($rolesArray[$key]);
     $roles = implode(' ', $rolesArray);
 
@@ -84,7 +79,10 @@ abstract class Database
   {
     $roles = self::getRoles($className, $foreignId);
 
-    if (stripos($roles, $role)===false) {
+    $rolesArray = explode(' ', $roles);
+    $key = array_search($role, $rolesArray);
+
+    if ($key===false) {
       return false;
     }
 
