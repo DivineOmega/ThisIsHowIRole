@@ -54,8 +54,6 @@ abstract class Database
 
     $stmt = $connection->prepare($sql);
     $stmt->execute([$roles, $className, $foreignId]);
-
-    var_dump($stmt->fetchObject());
   }
 
   public static function add($className, $foreignId, $role)
