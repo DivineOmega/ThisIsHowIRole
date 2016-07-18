@@ -16,31 +16,46 @@ abstract class Database
 
     $dsn = 'mysql:dbname='.$name.';host='.$host;
 
-    if ($connection==null) {
-      self::$connection = new PDO($dsn, $user, $password);
+    if (self::$connection===null) {
+      self::$connection = new \PDO($dsn, $user, $password);
     }
 
-    return $connection;
+    return self::$connection;
   }
 
-  private static function getRoles($className, $foreignId, $roles)
+  private static function getRoles($className, $foreignId)
   {
     $connection = self::getConnection();
 
     $sql = 'select * from '.self::$table.' where class_name = ? and foreign_id = ?';
 
-    $roleObj = \PDO::prepare($sql)->execute($className, $foreignId)->fetchObject();
+    $stmt = $connection->prepare($sql);
+    $stmt->execute([$className, $foreignId]);
+    $roleObj = $stmt->fetchObject();
+
+    if (!is_object($roleObj)) {
+
+      $sql = 'insert into '.self::$table.' set roles = ?, class_name = ?, foreign_id = ?';
+
+      $stmt = $connection->prepare($sql);
+      $stmt->execute(['', $className, $foreignId]);
+
+      return '';
+    }
 
     return $roleObj->roles;
   }
 
-  private static function setRoles($className, $foreignId)
+  private static function setRoles($className, $foreignId, $roles)
   {
     $connection = self::getConnection();
 
     $sql = 'update '.self::$table.' set roles = ? where class_name = ? and foreign_id = ?';
 
-    \PDO::prepare($sql)->execute($roles, $className, $foreignId);
+    $stmt = $connection->prepare($sql);
+    $stmt->execute([$roles, $className, $foreignId]);
+
+    var_dump($stmt->fetchObject());
   }
 
   public static function add($className, $foreignId, $role)

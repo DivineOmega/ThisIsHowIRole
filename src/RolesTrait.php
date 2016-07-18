@@ -11,7 +11,16 @@ trait RolesTrait
   public function __construct()
   {
     $this->roles = new RolesManager($this);
-    parent::__construct();
+
+    if (get_parent_class($this)!==false) {
+
+      $parentConstructor = parent::__construct();
+
+      if (is_callable($parentConstructor)) {
+        $parentConstructor();
+      }
+
+    }
   }
 
 }

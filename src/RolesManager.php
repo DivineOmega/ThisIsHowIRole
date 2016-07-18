@@ -15,7 +15,7 @@ class RolesManager
     }
 
     if (!isset($object->id) || !is_numeric($object->id)) {
-      throw new \Exception('TIHIR: Object passed to RolesManager does not contain a numeric id field.');
+      throw new \Exception('TIHIR: Object passed to RolesManager does not contain an accessible numeric id field.');
     }
 
     $this->object = $object;
@@ -23,16 +23,16 @@ class RolesManager
 
   public function add($role)
   {
-    Database::add(get_class($this->object), $this->id, $role);
+    Database::add(get_class($this->object), $this->object->id, $role);
   }
 
   public function remove($role)
   {
-    Database::remove(get_class($this->object), $this->id, $role);
+    Database::remove(get_class($this->object), $this->object->id, $role);
   }
 
   public function has($role)
   {
-    return Database::has(get_class($this->object), $this->id, $role);
+    return Database::has(get_class($this->object), $this->object->id, $role);
   }
 }
