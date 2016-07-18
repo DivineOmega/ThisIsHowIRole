@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `tihir_roles` (
 
 Now you need to set some environmental variables to point TIHIR towards your
 database. Something similar to the following will do the trick. If you're using
-Laravel, use can put this in your `.env` file. If not, you can use PHP's built
+Laravel, you can put this in your `.env` file. If not, you can use PHP's built
 in `putenv` function.
 
 ```
