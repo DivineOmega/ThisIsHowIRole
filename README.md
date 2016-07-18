@@ -46,8 +46,8 @@ TIHIR_DB_PASSWORD=PAMBSHcHssQqpw4A
 
 ## Usage
 
-This Is How I Role works be enhancing existing classes. This will work on any
-PHP class, be a manually created class or a Laravel Eloquent model. The only
+This Is How I Role works by enhancing existing classes. This will work on any
+PHP class, be it a manually created class or a Laravel Eloquent model. The only
 requirement is that the class must have an accessible, numeric `id` property.
 
 All you need to do is add two extra `use` lines to your class. This is shown in
