@@ -54,6 +54,8 @@ All you need to do is add two extra `use` lines to your class. This is shown in
 the example `User` class shown below.
 
 ```php
+require 'vendor/autoload.php';
+
 use DivineOmega\ThisIsHowIRole\RolesTrait as Roles; // <-- Line 1
 
 class User
