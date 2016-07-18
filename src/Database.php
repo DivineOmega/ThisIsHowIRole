@@ -9,12 +9,13 @@ abstract class Database
 
   private static function getConnection()
   {
-    $name = getenv('TIHIR_MYSQL_DB_NAME');
-    $host = getenv('TIHIR_MYSQL_DB_HOST');
-    $user = getenv('TIHIR_MYSQL_DB_USER');
-    $password = getenv('TIHIR_MYSQL_DB_PASSWORD');
+    $type = getenv('TIHIR_DB_TYPE');
+    $name = getenv('TIHIR_DB_NAME');
+    $host = getenv('TIHIR_DB_HOST');
+    $user = getenv('TIHIR_DB_USER');
+    $password = getenv('TIHIR_DB_PASSWORD');
 
-    $dsn = 'mysql:dbname='.$name.';host='.$host;
+    $dsn = $type.':dbname='.$name.';host='.$host;
 
     if (self::$connection===null) {
       self::$connection = new \PDO($dsn, $user, $password);
