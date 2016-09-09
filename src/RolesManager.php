@@ -35,4 +35,9 @@ class RolesManager
   {
     return Database::has(get_class($this->object), $this->object->id, $role);
   }
+
+  public function all()
+  {
+    return Database::all(get_class($this->object), $this->object->id);
+  }
 }

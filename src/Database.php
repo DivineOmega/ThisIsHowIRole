@@ -104,4 +104,14 @@ abstract class Database
 
   }
 
+  public static function all($className, $foreignId, $role)
+  {
+    $roles = self::getRoles($className, $foreignId);
+
+    $rolesArray = explode(' ', $roles);
+
+    return $rolesArray;
+
+  }
+
 }
