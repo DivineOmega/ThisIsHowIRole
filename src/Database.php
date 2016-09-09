@@ -104,7 +104,7 @@ abstract class Database
 
   }
 
-  public static function all($className, $foreignId, $role)
+  public static function all($className, $foreignId)
   {
     $roles = self::getRoles($className, $foreignId);
 

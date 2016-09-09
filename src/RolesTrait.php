@@ -6,21 +6,19 @@ use DivineOmega\ThisIsHowIRole\RolesManager;
 
 trait RolesTrait
 {
-  public $roles = null;
+  private $rolesManager = null;
 
-  public function __construct()
+  public function __get($key)
   {
-    $this->roles = new RolesManager($this);
-
-    if (get_parent_class($this)!==false) {
-
-      $parentConstructor = parent::__construct();
-
-      if (is_callable($parentConstructor)) {
-        $parentConstructor();
-      }
-
+    if ($key!='roles') {
+      return parent::__get($key);
     }
-  }
+
+    if ($this->rolesManager==null) {
+      $this->rolesManager = new RolesManager($this);
+    }
+
+    return $this->rolesManager;
+   }
 
 }
