@@ -9,11 +9,19 @@ abstract class Database
 
   private static function getConnection()
   {
-    $type = getenv('TIHIR_DB_TYPE');
-    $name = getenv('TIHIR_DB_NAME');
-    $host = getenv('TIHIR_DB_HOST');
-    $user = getenv('TIHIR_DB_USER');
-    $password = getenv('TIHIR_DB_PASSWORD');
+    if (getenv('TIHIR_USE_LARAVEL_DB')) {
+      $type = getenv('DB_CONNECTION');
+      $name = getenv('DB_DATABASE');
+      $host = getenv('DB_HOST');
+      $user = getenv('DB_USERNAME');
+      $password = getenv('DB_PASSWORD');
+    } else {
+      $type = getenv('TIHIR_DB_TYPE');
+      $name = getenv('TIHIR_DB_NAME');
+      $host = getenv('TIHIR_DB_HOST');
+      $user = getenv('TIHIR_DB_USER');
+      $password = getenv('TIHIR_DB_PASSWORD');
+    }
 
     $dsn = $type.':dbname='.$name.';host='.$host;
 
