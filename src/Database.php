@@ -9,7 +9,7 @@ abstract class Database
 
   private static function getConnection()
   {
-    if (getenv('TIHIR_USE_LARAVEL_DB')) {
+    if (getenv('TIHIR_USE_LARAVEL_DB')==='true') {
       $type = getenv('DB_CONNECTION');
       $name = getenv('DB_DATABASE');
       $host = getenv('DB_HOST');
