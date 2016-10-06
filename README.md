@@ -18,6 +18,8 @@ You can use `composer` to install this package. Just add the package to your
 
 ## Setup
 
+### Table creation
+
 First, create a new table in your application's database to store the TIHIR
 roles. You can use the following SQL snippet to create the table.
 
@@ -31,10 +33,50 @@ CREATE TABLE IF NOT EXISTS `tihir_roles` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 ```
 
+If you're using Laravel, you can use the following database migration to
+create the TIHIR roles table.
+
+```php
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateThisIsHowIRoleRolesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tihir_roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('class_name');
+            $table->bigInteger('foreign_id');
+            $table->text('roles');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('tihir_roles');
+    }
+}
+```
+
+### Database connection configuration
+
 Now you need to set some environmental variables to point TIHIR towards your
 database. Something similar to the following will do the trick. If you're using
-Laravel, you can put this in your `.env` file. If not, you can use PHP's built
-in `putenv` function.
+a framework that supports it, you can put this in your `.env` file. If not, 
+you can use PHP's built in `putenv` function.
 
 ```
 TIHIR_DB_TYPE=mysql
@@ -42,6 +84,14 @@ TIHIR_DB_NAME=tihir_test
 TIHIR_DB_HOST=192.168.1.44
 TIHIR_DB_USER=tihir_test
 TIHIR_DB_PASSWORD=PAMBSHcHssQqpw4A
+```
+
+If you're using Laravel, you can use the helpful environmental variable
+`TIHIR_USE_LARAVEL_DB`. This will make TIHIR use the same underlying database
+connection that Laravel uses.
+
+```
+TIHIR_USE_LARAVEL_DB=true 
 ```
 
 ## Usage
