@@ -9,26 +9,28 @@ abstract class Database
 
   private static function getConnection()
   {
+    if (self::$connection!==null) {
+      return self::$connection;
+    }
+
     if (getenv('TIHIR_USE_LARAVEL_DB')==='true') {
-      $type = getenv('DB_CONNECTION');
-      $name = getenv('DB_DATABASE');
-      $host = getenv('DB_HOST');
-      $user = getenv('DB_USERNAME');
-      $password = getenv('DB_PASSWORD');
+
+      self::$connection = \Illuminate\Support\Facades\DB::connection()->getPdo();
+
     } else {
+
       $type = getenv('TIHIR_DB_TYPE');
       $name = getenv('TIHIR_DB_NAME');
       $host = getenv('TIHIR_DB_HOST');
       $user = getenv('TIHIR_DB_USER');
       $password = getenv('TIHIR_DB_PASSWORD');
-    }
 
-    $dsn = $type.':dbname='.$name.';host='.$host;
+      $dsn = $type.':dbname='.$name.';host='.$host;
 
-    if (self::$connection===null) {
       self::$connection = new \PDO($dsn, $user, $password);
-    }
-
+      
+    }      
+    
     return self::$connection;
   }
 
