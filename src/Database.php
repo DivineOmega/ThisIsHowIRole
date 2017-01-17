@@ -6,6 +6,11 @@ abstract class Database
 {
   private static $connection = null;
   private static $table = 'tihir_roles';
+  private static $testMode = false;
+
+  public static function setTestMode($testMode) {
+    $this->testMode = $testMode;
+  }
 
   private static function getConnection()
   {
@@ -36,6 +41,10 @@ abstract class Database
 
   private static function getRoles($className, $foreignId)
   {
+    if ($testMode) {
+      return '';
+    }
+
     $connection = self::getConnection();
 
     $sql = 'select * from '.self::$table.' where class_name = ? and foreign_id = ?';
@@ -59,6 +68,10 @@ abstract class Database
 
   private static function setRoles($className, $foreignId, $roles)
   {
+    if ($testMode) {
+      return;
+    }
+
     $connection = self::getConnection();
 
     $sql = 'update '.self::$table.' set roles = ? where class_name = ? and foreign_id = ?';
@@ -85,6 +98,10 @@ abstract class Database
 
   public static function remove($className, $foreignId, $role)
   {
+    if ($testMode) {
+      return;
+    }
+
     $roles = self::getRoles($className, $foreignId);
 
     $rolesArray = explode(' ', $roles);
@@ -101,6 +118,10 @@ abstract class Database
 
   public static function has($className, $foreignId, $role)
   {
+    if ($testMode) {
+      return true;
+    }
+
     $roles = self::getRoles($className, $foreignId);
 
     $rolesArray = explode(' ', $roles);
@@ -116,6 +137,10 @@ abstract class Database
 
   public static function all($className, $foreignId)
   {
+    if ($testMode) {
+      return  '';
+    }
+
     $roles = self::getRoles($className, $foreignId);
 
     $rolesArray = explode(' ', $roles);
