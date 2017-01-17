@@ -9,7 +9,7 @@ abstract class Database
   private static $testMode = false;
 
   public static function setTestMode($testMode) {
-    $this->testMode = $testMode;
+    self::$testMode = $testMode;
   }
 
   private static function getConnection()
@@ -41,7 +41,7 @@ abstract class Database
 
   private static function getRoles($className, $foreignId)
   {
-    if ($testMode) {
+    if (self::$testMode) {
       return '';
     }
 
@@ -68,7 +68,7 @@ abstract class Database
 
   private static function setRoles($className, $foreignId, $roles)
   {
-    if ($testMode) {
+    if (self::$testMode) {
       return;
     }
 
@@ -98,7 +98,7 @@ abstract class Database
 
   public static function remove($className, $foreignId, $role)
   {
-    if ($testMode) {
+    if (self::$testMode) {
       return;
     }
 
@@ -118,7 +118,7 @@ abstract class Database
 
   public static function has($className, $foreignId, $role)
   {
-    if ($testMode) {
+    if (self::$testMode) {
       return true;
     }
 
@@ -137,7 +137,7 @@ abstract class Database
 
   public static function all($className, $foreignId)
   {
-    if ($testMode) {
+    if (self::$testMode) {
       return  '';
     }
 
