@@ -2,11 +2,13 @@
 
 namespace DivineOmega\ThisIsHowIRole;
 
-use DivineOmega\ThisIsHowIRole\Database;
+use DivineOmega\ThisIsHowIRole\DatabaseDrivers\PDODatabaseDriver;
+use DivineOmega\ThisIsHowIRole\DatabaseDrivers\EloquentDatabaseDriver;
 
 class RolesManager
 {
   private $object = null;
+  private $database = null;
 
   public function __construct($object)
   {
@@ -19,25 +21,31 @@ class RolesManager
     }
 
     $this->object = $object;
+
+    if (class_exists('Illuminate\Database\Eloquent\Model')) {
+      $this->database = new EloquentDatabaseDriver();
+    } else {
+      $this->database = new PDODatabaseDriver();
+    }
   }
 
   public function add($role)
   {
-    Database::add(get_class($this->object), $this->object->id, $role);
+    $this->database->add(get_class($this->object), $this->object->id, $role);
   }
 
   public function remove($role)
   {
-    Database::remove(get_class($this->object), $this->object->id, $role);
+    $this->database->remove(get_class($this->object), $this->object->id, $role);
   }
 
   public function has($role)
   {
-    return Database::has(get_class($this->object), $this->object->id, $role);
+    return $this->database->has(get_class($this->object), $this->object->id, $role);
   }
 
   public function all()
   {
-    return Database::all(get_class($this->object), $this->object->id);
+    return $this->database->all(get_class($this->object), $this->object->id);
   }
 }

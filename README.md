@@ -5,16 +5,8 @@ class.
 
 ## Installation
 
-You can use `composer` to install this package. Just add the package to your
-`composer.json` file as follows and run `composer update`.
-
-```json
-{
-  "require": {
-       "divineomega/thisishowirole": "1.*"
-   }
-}
-```
+You can use `composer` to install this package. 
+Just run `composer require divineomega/thisishowirole`.
 
 ## Setup
 
@@ -73,7 +65,10 @@ class CreateThisIsHowIRoleRolesTable extends Migration
 
 ### Database connection configuration
 
-Now you need to set some environmental variables to point TIHIR towards your
+If you're using Laravel, TIHIR will automatically use the database you've
+configured. We'll also use Eloquent to communicate with your database.
+
+Otherwise, you need to set some environmental variables to point TIHIR towards your
 database. Something similar to the following will do the trick. If you're using
 a framework that supports it, you can put this in your `.env` file. If not, 
 you can use PHP's built in `putenv` function.
@@ -84,14 +79,6 @@ TIHIR_DB_NAME=tihir_test
 TIHIR_DB_HOST=192.168.1.44
 TIHIR_DB_USER=tihir_test
 TIHIR_DB_PASSWORD=PAMBSHcHssQqpw4A
-```
-
-If you're using Laravel, you can use the helpful environmental variable
-`TIHIR_USE_LARAVEL_DB`. This will make TIHIR use the same underlying database
-connection that Laravel uses.
-
-```
-TIHIR_USE_LARAVEL_DB=true 
 ```
 
 ## Usage
