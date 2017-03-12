@@ -66,7 +66,8 @@ class CreateThisIsHowIRoleRolesTable extends Migration
 ### Database connection configuration
 
 If you're using Laravel, TIHIR will automatically use the database you've
-configured. We'll also use Eloquent to communicate with your database.
+configured for your application, so you don't need to do anything here. 
+We'll also use Eloquent to communicate with your database.
 
 Otherwise, you need to set some environmental variables to point TIHIR towards your
 database. Something similar to the following will do the trick. If you're using
