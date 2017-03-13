@@ -5,13 +5,14 @@ namespace DivineOmega\ThisIsHowIRole\DatabaseDrivers;
 use DivineOmega\ThisIsHowIRole\Interfaces\DatabaseDriverInterface;
 use DivineOmega\ThisIsHowIRole\DatabaseDrivers\BaseDatabaseDriver;
 use DivineOmega\ThisIsHowIRole\DatabaseDrivers\Eloquent\Role;
+use DivineOmega\ThisIsHowIRole\Utils;
 
 class EloquentDatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInterface
 {
 
   protected function getRoles($className, $foreignId)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return '';
     }
 
@@ -29,7 +30,7 @@ class EloquentDatabaseDriver extends BaseDatabaseDriver implements DatabaseDrive
 
   protected function setRoles($className, $foreignId, $roles)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return;
     }
 

@@ -3,15 +3,10 @@
 namespace DivineOmega\ThisIsHowIRole\DatabaseDrivers;
 
 use DivineOmega\ThisIsHowIRole\Interfaces\DatabaseDriverInterface;
+use DivineOmega\ThisIsHowIRole\Utils;
 
 abstract class BaseDatabaseDriver implements DatabaseDriverInterface
 {
-  protected $testMode = false;
-
-  public function setTestMode($testMode) {
-    $this->testMode = $testMode;
-  }
-
   public function add($className, $foreignId, $role)
   {
     $roles = $this->getRoles($className, $foreignId);
@@ -30,7 +25,7 @@ abstract class BaseDatabaseDriver implements DatabaseDriverInterface
 
   public function remove($className, $foreignId, $role)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return;
     }
 
@@ -50,7 +45,7 @@ abstract class BaseDatabaseDriver implements DatabaseDriverInterface
 
   public function has($className, $foreignId, $role)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return true;
     }
 
@@ -69,7 +64,7 @@ abstract class BaseDatabaseDriver implements DatabaseDriverInterface
 
   public function all($className, $foreignId)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return  '';
     }
 

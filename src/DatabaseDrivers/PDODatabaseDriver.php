@@ -4,6 +4,7 @@ namespace DivineOmega\ThisIsHowIRole\DatabaseDrivers;
 
 use DivineOmega\ThisIsHowIRole\Interfaces\DatabaseDriverInterface;
 use DivineOmega\ThisIsHowIRole\DatabaseDrivers\BaseDatabaseDriver;
+use DivineOmega\ThisIsHowIRole\Utils;
 
 class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInterface
 {
@@ -31,7 +32,7 @@ class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInte
 
   protected function getRoles($className, $foreignId)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return '';
     }
 
@@ -58,7 +59,7 @@ class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInte
 
   protected function setRoles($className, $foreignId, $roles)
   {
-    if ($this->testMode) {
+    if (Utils::testModeActive()) {
       return;
     }
 
