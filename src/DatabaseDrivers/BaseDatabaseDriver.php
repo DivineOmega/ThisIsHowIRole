@@ -30,6 +30,7 @@ abstract class BaseDatabaseDriver implements DatabaseDriverInterface
       return;
     }
     $rolesArray[] = $role;
+    sort($rolesArray);
     $roles = implode(' ', $rolesArray);
 
     $this->setRoles($className, $foreignId, $roles);
@@ -50,6 +51,7 @@ abstract class BaseDatabaseDriver implements DatabaseDriverInterface
       return;
     }
     unset($rolesArray[$key]);
+    sort($rolesArray);
     $roles = implode(' ', $rolesArray);
 
     $this->setRoles($className, $foreignId, $roles);
