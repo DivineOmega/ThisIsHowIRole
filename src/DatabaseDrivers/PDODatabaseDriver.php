@@ -43,7 +43,7 @@ class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInte
 
     $cacheKey = $this->cacheKey($className, $foreignId);
 
-    if (!($roles = $this->cache->get($cacheKey)))
+    if (($roles = $this->cache->get($cacheKey))===false)
     {
 
       $connection = $this->getConnection();

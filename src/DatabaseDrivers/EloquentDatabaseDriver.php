@@ -22,7 +22,7 @@ class EloquentDatabaseDriver extends BaseDatabaseDriver implements DatabaseDrive
 
     $cacheKey = $this->cacheKey($className, $foreignId);
 
-    if (!($roles = $this->cache->get($cacheKey)))
+    if (($roles = $this->cache->get($cacheKey))===false)
     {
 
       $role = Role::where('class_name', $className)->where('foreign_id', $foreignId)->limit(1)->first();
