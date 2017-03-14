@@ -49,6 +49,11 @@ class EloquentDatabaseDriver extends BaseDatabaseDriver implements DatabaseDrive
       return;
     }
 
+    // Don't update roles if they haven't changed
+    if ($this->getRoles($className, $foreignId) == $roles) {
+      return;
+    }
+
     $cacheKey = $this->cacheKey($className, $foreignId);
 
     $this->cache->delete($cacheKey);
