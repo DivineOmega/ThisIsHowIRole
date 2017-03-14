@@ -27,6 +27,8 @@ class RolesManager
     } else {
       $this->database = new PDODatabaseDriver();
     }
+
+    $this->database->setupCache();
   }
 
   public function add($role)

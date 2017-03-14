@@ -1,1 +1,7 @@
+# Ignore composer files
 /vendor/
+composer.lock
+
+# Ignore caches
+/cache/*.cache
+/cache/**/*.cache

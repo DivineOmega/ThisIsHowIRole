@@ -30,31 +30,47 @@ class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInte
     return $this->connection;
   }
 
+  private function cacheKey($className, $foreignId)
+  {
+    return 'TIHIR_PDO_'.$className.'_'.$foreignId;
+  }
+
   protected function getRoles($className, $foreignId)
   {
     if (Utils::testModeActive()) {
       return '';
     }
 
-    $connection = $this->getConnection();
+    $cacheKey = $this->cacheKey($className, $foreignId);
 
-    $sql = 'select * from '.$this->table.' where class_name = ? and foreign_id = ?';
+    if (!($roles = $this->cache->get($cacheKey)))
+    {
 
-    $stmt = $connection->prepare($sql);
-    $stmt->execute([$className, $foreignId]);
-    $roleObj = $stmt->fetchObject();
+      $connection = $this->getConnection();
 
-    if (!is_object($roleObj)) {
-
-      $sql = 'insert into '.$this->table.' set roles = ?, class_name = ?, foreign_id = ?';
+      $sql = 'select * from '.$this->table.' where class_name = ? and foreign_id = ?';
 
       $stmt = $connection->prepare($sql);
-      $stmt->execute(['', $className, $foreignId]);
+      $stmt->execute([$className, $foreignId]);
+      $roleObj = $stmt->fetchObject();
 
-      return '';
+      if (!is_object($roleObj)) {
+
+        $sql = 'insert into '.$this->table.' set roles = ?, class_name = ?, foreign_id = ?';
+
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['', $className, $foreignId]);
+
+        return '';
+      }
+
+      $roles = $roleObj->roles;
+
+      $this->cache->set($cacheKey, $roles);
+
     }
 
-    return $roleObj->roles;
+    return $roles;
   }
 
   protected function setRoles($className, $foreignId, $roles)
@@ -62,6 +78,10 @@ class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInte
     if (Utils::testModeActive()) {
       return;
     }
+
+    $cacheKey = $this->cacheKey($className, $foreignId);
+
+    $this->cache->delete($cacheKey);
 
     $connection = $this->getConnection();
 

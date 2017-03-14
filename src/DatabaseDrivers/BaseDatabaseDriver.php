@@ -4,9 +4,22 @@ namespace DivineOmega\ThisIsHowIRole\DatabaseDrivers;
 
 use DivineOmega\ThisIsHowIRole\Interfaces\DatabaseDriverInterface;
 use DivineOmega\ThisIsHowIRole\Utils;
+use DivineOmega\ThisIsHowIRole\CacheDrivers\RWFileCacheDriver;
+use DivineOmega\ThisIsHowIRole\CacheDrivers\LaravelCacheDriver;
 
 abstract class BaseDatabaseDriver implements DatabaseDriverInterface
 {
+  protected $cache = null;
+
+  public function setupCache()
+  {
+    if (class_exists('Illuminate\Support\Facades\Cache')) {
+      $this->cache = new LaravelCacheDriver;
+    } else {
+      $this->cache = new RWFileCacheDriver;
+    }
+  }
+
   public function add($className, $foreignId, $role)
   {
     $roles = $this->getRoles($className, $foreignId);

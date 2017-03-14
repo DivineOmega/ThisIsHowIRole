@@ -9,7 +9,8 @@
         "permissions"
       ],
     "require": {
-        "php": ">=5.5.9"
+        "php": ">=5.5.9",
+        "rapidwebltd/RW-File-Cache": "^1.0"
     },
     "autoload": {
         "psr-4": {
