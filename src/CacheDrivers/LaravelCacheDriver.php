@@ -14,7 +14,16 @@ class LaravelCacheDriver implements CacheDriverInterface {
 
     public function get($key)
     {
-        return Cache::get($key);
+        $cachedItem = Cache::get($key);
+        
+        // Laravel's caching return null if item is not found in the cache.
+        // We are standardising this to return false, preventing issues with
+        // objects that have no roles associated to them.
+        if ($cachedItem===null) {
+            return false;
+        }
+
+        return $cachedItem;
     }
 
     public function delete($key)
