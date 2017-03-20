@@ -32,6 +32,7 @@ class EloquentDatabaseDriver extends BaseDatabaseDriver implements DatabaseDrive
         $role->roles = '';
         $role->class_name = $className;
         $role->foreign_id = $foreignId;
+        $role->save();
       }
 
       $roles = $role->roles;
