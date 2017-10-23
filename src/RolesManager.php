@@ -2,8 +2,8 @@
 
 namespace DivineOmega\ThisIsHowIRole;
 
-use DivineOmega\ThisIsHowIRole\DatabaseDrivers\PDODatabaseDriver;
-use DivineOmega\ThisIsHowIRole\DatabaseDrivers\EloquentDatabaseDriver;
+
+use DivineOmega\ThisIsHowIRole\DatabaseHelper;
 
 class RolesManager
 {
@@ -22,11 +22,9 @@ class RolesManager
 
     $this->object = $object;
 
-    if (class_exists('Illuminate\Database\Eloquent\Model')) {
-      $this->database = new EloquentDatabaseDriver();
-    } else {
-      $this->database = new PDODatabaseDriver();
-    }
+
+    $this->database = DatabaseHelper::getDatabaseDriver();
+
 
     $this->database->setupCache();
   }
@@ -50,4 +48,5 @@ class RolesManager
   {
     return $this->database->all(get_class($this->object), $this->object->id);
   }
+
 }

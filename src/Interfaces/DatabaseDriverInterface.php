@@ -7,5 +7,6 @@ interface DatabaseDriverInterface
   public function add($className, $foreignId, $role);
   public function remove($className, $foreignId, $role);
   public function all($className, $foreignId);
+  public function getAllByRole($className,$role);
   
 }

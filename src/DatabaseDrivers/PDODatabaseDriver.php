@@ -96,4 +96,22 @@ class PDODatabaseDriver extends BaseDatabaseDriver implements DatabaseDriverInte
     $stmt->execute([$roles, $className, $foreignId]);
   }
 
+  public function getAllByRole($className,$role)
+  {
+    $rows = array();
+    $sql = 'select foreign_id from '.$this->table.' where class_name = ? and roles like ?';
+
+    $connection = $this->getConnection();
+
+    $stmt = $connection->prepare($sql);
+    $stmt->execute([$className, '%'.$role.'%']);
+    while($row = $stmt->fetchObject())
+    { 
+      $rows[] = $row->foreign_id;
+    }
+
+    return $rows;
+
+  }
+
 }

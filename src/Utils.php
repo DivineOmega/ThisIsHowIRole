@@ -2,6 +2,9 @@
 
 namespace DivineOmega\ThisIsHowIRole;
 
+use DivineOmega\ThisIsHowIRole\DatabaseHelper;
+
+
 abstract class Utils
 {
     private static $testMode = null;
@@ -19,5 +22,14 @@ abstract class Utils
     public static function testModeActive()
     {
         return self::$testMode;
+    }
+
+    public static function getIdsByRole($className,$role)
+    {
+        $database = DatabaseHelper::getDatabaseDriver();
+
+       $ids =  $database->getAllByRole($className,$role);
+
+       return $ids;
     }
 }

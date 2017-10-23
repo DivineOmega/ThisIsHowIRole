@@ -15,6 +15,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 /* Test User class */
 
 use DivineOmega\ThisIsHowIRole\RolesTrait as Roles;
+use DivineOmega\ThisIsHowIRole\Utils;
 
 class User
 {
@@ -28,9 +29,17 @@ class User
 
 $user = new User;
 
+$roles = $user->roles->all();
+
+
+
+
+
+
 $user->roles->add('can_eat_cake');
 $user->roles->add('can_eat_cookies');
 $user->roles->remove('can_eat_cookies');
+
 
 echo 'This user can ';
 
@@ -41,5 +50,7 @@ if ($user->roles->has('can_eat_cake')) {
 if ($user->roles->has('can_eat_cookies')) {
   echo 'eat cookies... ';
 }
+
+$users = Utils::getIdsByRole('User',' can_eat_cake');
 
 echo "\n";
