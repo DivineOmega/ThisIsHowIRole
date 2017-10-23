@@ -68,7 +68,7 @@ class EloquentDatabaseDriver extends BaseDatabaseDriver implements DatabaseDrive
   public function getAllByRole($className,$role)
   {
     $rows = array();
-    $getRows = Role::where('class_name', $className)->where('role','LIKE ', '%'.$role.'%')->get();
+    $getRows = Role::where('class_name', $className)->where('roles','LIKE', '%'.$role.'%')->get();
     foreach($getRows as $row)
     {
       $rows[] = $row->foreign_id;
